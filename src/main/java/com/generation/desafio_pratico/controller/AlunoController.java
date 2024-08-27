@@ -27,13 +27,13 @@ public class AlunoController {
 
     @Operation(description = "Busca todos os alunos cadastrados.")
     @GetMapping("/listartodos")
-    public ResponseEntity<Iterable<Aluno>> getAll(){
+    public ResponseEntity<Iterable<Aluno>> listarTodos(){
         return ResponseEntity.ok(alunoRepository.findAll());
     }
 
     @Operation(description = "Busca alunos por id.")
     @GetMapping("listar/{id}")
-    public ResponseEntity<Aluno> getClienteById(@PathVariable Long id) {
+    public ResponseEntity<Aluno> listarAlunosById(@PathVariable Long id) {
         return alunoRepository.findById(id)
                 .map(resposta -> ResponseEntity.ok(resposta))
                 .orElse(ResponseEntity.notFound().build());
@@ -41,17 +41,16 @@ public class AlunoController {
 
     @Operation(description = "Cadastra alunos")
     @PostMapping("/cadastrar")
-    public ResponseEntity<Aluno> PostCliente(@Valid @RequestBody Aluno aluno)
+    public ResponseEntity<Aluno> cadastrarAlunos(@RequestBody Aluno aluno)
     {
-        return alunoService.CadastrarAluno(aluno)
+        return alunoService.cadastrarAluno(aluno)
                 .map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
                 .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
     }
 
     @Operation(description = "Atualiza dados do aluno por id.")
-    @Parameter(description = "id do aluno")
     @PutMapping("atualizar/{id}")
-    public ResponseEntity<Aluno> putCliente(@Valid @RequestBody Aluno aluno) {
+    public ResponseEntity<Aluno> atualizarAluno(@PathVariable Long id, @RequestBody Aluno aluno) {
         return alunoService.atualizarAluno(aluno)
                 .map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -59,7 +58,7 @@ public class AlunoController {
 
     @Operation(description = "Deleta aluno por id.")
     @DeleteMapping("deletar/{id}")
-    public void delete(@PathVariable long id) {
+    public void deletarAluno(@PathVariable long id) {
         alunoRepository.deleteById(id);
     }
 

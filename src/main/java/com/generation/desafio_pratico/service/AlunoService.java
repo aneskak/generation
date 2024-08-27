@@ -14,7 +14,7 @@ public class AlunoService {
     @Autowired
     private AlunoRepository alunoRepository;
 
-    public Optional<Aluno> CadastrarAluno(Aluno aluno){
+    public Optional<Aluno> cadastrarAluno(Aluno aluno){
         if(alunoRepository.findById(aluno.getId()).isPresent())
             return Optional.empty();
 
